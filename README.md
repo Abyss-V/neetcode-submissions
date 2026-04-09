@@ -1,4 +1,4 @@
-# NeetCode Solutions — @none159
+# NeetCode Solutions — @Noctyra-V
 
 > Synced automatically from [NeetCode.io](https://neetcode.io) · Repository: `neetcode-submissions`
 
