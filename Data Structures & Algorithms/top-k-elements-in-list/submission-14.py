@@ -1,4 +1,4 @@
-from heapq import nlargest
+from collections import Counter
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         freq = {}
@@ -7,4 +7,8 @@ class Solution:
                 freq[nums[i]] = 1
             else:
                 freq[nums[i]] += 1
-        return nlargest(k,freq,key=freq.get)
+        c = Counter(freq)
+        freq = []
+        for k,v in c.most_common(k):
+            freq.append(k)
+        return freq
