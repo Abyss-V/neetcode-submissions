@@ -7,21 +7,25 @@
 
 class Solution:
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
-        res_1 = []
-        res_2 = []
-        def dfs(root,res):
-            if not root:
-                res.append(root)
+        found = True
+        if not p and not q:
+            return True
+        depth = 0
+        def dfs(root1,root2):
+            nonlocal found
+            if root1 == None and root2 or root1 and root2 == None:
+                found = False
                 return None
-            res.append(root.val)
-            left = dfs(root.left,res)
-            right = dfs(root.right,res)
-        
-        dfs(p,res_1)
-        dfs(q,res_2)
-        print(res_1)
-        print(res_2)
-        if res_1 != res_2:
-            return False
+            elif root1 == None and root2 == None:
+                return None
+            
+            dfs(root1.left,root2.left)
+            
+            dfs(root1.right,root2.right)
+            
+            if root1.val != root2.val:
+                found = False
 
-        return True
+     
+        dfs(p,q)
+        return found    

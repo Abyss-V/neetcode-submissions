@@ -1,49 +1,58 @@
 class Solution:
-    def in_box(self, i,j):
-        if 0 <= i <= 2 and 0 <= j <= 2:
-            return 0
-        if 0 <= i <= 2 and 3 <= j <= 5:
-            return 1
-        if 0 <= i <= 2 and 6 <= j <= 8:
-            return 2
-        if 3 <= i <= 5 and 0 <= j <= 2:
-            return 3
-        if 3 <= i <= 5 and 3 <= j <= 5:
-            return 4
-        if 3 <= i <= 5 and 6 <= j <= 8:
-            return 5
-        if 6 <= i <= 8 and 0 <= j <= 2:
-            return 6
-        if 6 <= i <= 8 and 3 <= j <= 5:
-            return 7
-        if 6 <= i <= 8 and 6 <= j <= 8:
-            return 8
-        
-    def isValidSudoku(self, board: List[List[str]]) -> bool:
-        k = 0
-        i = 0
-        seenin_box = [[] for _ in range(0,9)]
-
-        while k < len(board[0]): 
-            seen_col = []
-            for i,v in enumerate(board):
-                if board[i][k].isdigit() and board[i][k] in seen_col:
-                    return False
-                elif board[i][k].isdigit():
-                    seen_col.append(board[i][k])
-            k += 1
-        for i,v in enumerate(board):
-            seen = []
-            for j,v in enumerate(board[i]):
-                box_indx = self.in_box(i,j)
-                if v.isdigit() and v in seen or v in seenin_box[box_indx]:
-                    return False
-                elif v.isdigit():
-                    seenin_box[box_indx].append(v)
-                    seen.append(v)
-                    print("seen",seen)
-
+    def isvalidbox(self,grid,x,y):
+        if grid[x][y].isdigit() and not int(grid[x][y]) > 0 and not int(grid[x][y]) <= 9:
+            return False
+        elif  grid[x][y + 1].isdigit() and not int(grid[x][y + 1]) > 0 and not int(grid[x][y + 1]) <= 9:
+            return False
+        elif grid[x][y + 2].isdigit() and not int(grid[x][y + 2]) > 0 and not int(grid[x][y + 2]) <= 9:
+            return False
+        elif grid[x + 1][y].isdigit() and not int(grid[x + 1][y]) > 0 and not int(grid[x + 1][y]) <= 9:
+            return False
+        elif grid[x + 1][y + 1].isdigit() and not int(grid[x + 1][y + 1]) > 0 and not int(grid[x + 1][y + 1]) <= 9:
+            return False
+        elif grid[x + 1][y + 2].isdigit() and  not int(grid[x + 1][y + 2]) > 0 and not int(grid[x + 1][y + 2]) <= 9:
+            return False
+        elif grid[x + 2][y].isdigit() and not int(grid[x + 2][y]) > 0 and not int(grid[x + 2][y]) <= 9:
+            return False
+        elif grid[x + 2][y + 1].isdigit() and  not int(grid[x + 2][y + 1]) > 0 and  not int(grid[x + 2][y + 1]) <= 9:
+            return False
+        elif grid[x + 2][y + 2].isdigit() and  not int(grid[x + 2][y + 2]) > 0 and not int(grid[x + 2][y + 2]) <= 9:
+            return False
         return True
-
-
-# my solution with help with inbox: complexity => time: o(n^2) and space: (n*m) which n is number of rows and m number of columns
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        dup_row = {}
+        col = 0
+        for i,x in enumerate(board):
+            dup_col = {}
+            for j,y in enumerate(board[i]):
+                if board[i][j].isdigit() and board[i][j] in dup_col:
+                    return False
+                elif board[i][j].isdigit():
+                    dup_col[board[i][j]] = 1
+        row = 0
+        col = 0
+        while col < 9:
+            if row >= 9:
+                dup_row = {}
+                col += 1
+                row = 0
+            if col == 9:
+                break
+            if board[row][col].isdigit() and board[row][col] in dup_row:
+                    return False
+            elif board[row][col].isdigit():
+                    dup_row[board[row][col]] = 1
+            row += 1
+        dup = {}
+        for i,x in enumerate(board):
+            for j,y in enumerate(board[i]):
+                if board[i][j].isdigit() and (int(i/3),int(j/3),board[i][j]) in dup:
+                    print("here")
+                    return False
+                if board[i][j].isdigit():
+                    dup[(int(i/3),int(j/3),board[i][j])] = 1
+                if not self.isvalidbox(board,int(i/3),int(j/3)):
+                    return False
+        return True
+                
+                

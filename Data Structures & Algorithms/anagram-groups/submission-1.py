@@ -1,22 +1,17 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        s = list(s)
-        t = list(t)
-        s.sort()
-        t.sort()
-        if s == t:
-            return True
-        return False
+        alpha_1 = [0] * 26
+        alpha_2 = [0] * 26
+        for n in s:
+            alpha_1[ord(n) - ord('a')] += 1
+        for n in t:
+            alpha_2[ord(n) - ord('a')] += 1
+        return alpha_1 == alpha_2
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        anagrams = {}
-        for i in range(0,len(strs)):
-                exist = any(strs[i] in lst for lst in anagrams.values())
-                if exist:
-                        continue
-                anagrams[strs[i]] = []
-                for j in range(i + 1,len(strs)):
-                    if self.isAnagram(strs[i],strs[j]):
-                        anagrams[strs[i]].append(strs[j])
-        anagrams = [[k,*v] for k,v in anagrams.items()]
-        return anagrams
-            
+        i = 0
+        dic = defaultdict(list)
+        while i < len(strs):
+                dic[''.join(sorted(strs[i]))].append(strs[i])
+                i += 1
+
+        return list(dic.values())

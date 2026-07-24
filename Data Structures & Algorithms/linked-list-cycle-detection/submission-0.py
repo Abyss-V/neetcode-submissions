@@ -6,11 +6,9 @@
 
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
-        visited = deque()
         while head != None:
-            if head in visited:
+            if head.val == float("inf"):
                 return True
-            visited.append(head)
+            head.val = float("inf")
             head = head.next
         return False
-        

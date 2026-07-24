@@ -1,9 +1,12 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        s = list(s)
-        t = list(t)
-        s.sort()
-        t.sort()
-        if s == t:
-            return True
-        return False
+        l = defaultdict(int)
+        l_2 = defaultdict(int)
+        for n in s:
+            l[n] += 1
+        for n in t:
+            l_2[n] += 1
+        return l == l_2
+
+
+# time : o(n+m) ,space:o(1) because its fixed 26 alpha length
